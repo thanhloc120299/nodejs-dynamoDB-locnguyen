@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser')
 
 const app = express();
-const port = 3000;
+const port = 5000;
 const path = require('path');
 const exphbs = require('express-handlebars');
 import UserRouter from "./student/student.router";

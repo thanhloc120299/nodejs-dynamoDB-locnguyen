@@ -1,9 +1,10 @@
 module.exports = {
-    aws_table_name: 'sinhvien',
+    aws_table_name: 'asa',
     aws_local_config: {
         region: 'local',
-        endpoint: 'http://localhost:3000'
+        endpoint: 'http://localhost:5000'
       //Provide details for local configuration
+      ///loc
     },
     aws_remote_config: {
       accessKeyId: 'AKIAS6PR2AJMBSZPS7B3',
