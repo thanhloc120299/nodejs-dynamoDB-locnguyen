@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý học sinh</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        let students= {};
+        function loadDoc() {
+
+            const http = new XMLHttpRequest();
+            http.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    students = JSON.parse(this.responseText);
+                    for (let i = 0; i < students.students.length ;i++) {
+                        $('#listStudent').append('<tr id="row">' +
+                            '<th>'+
+                                i+
+                            '</th>'+
+                            '<td>'+
+                                students.students[i].name+
+                            '</td>'+
+                            '<td>'+
+                            students.students[i].phone+
+                            '</td>'+
+                            '<td>'+
+                            students.students[i].addRess+
+                            '</td>'+
+                            '<td>'+
+                                '<a href="#">'+"Edit"+'</a>'+
+                            '</td>'+
+                            '</tr>')
+                    }
+                }
+            };
+            http.open("GET", "http://localhost:3000/getStudent", true);
+            http.send();
+        }
+        function addStudent() {
+            const name = document.getElementById("name").value;
+            const phone = document.getElementById("phone").value;
+            const address = document.getElementById("address").value;
+            const student = {
+                "name": name,
+                "phone": phone,
+                "addRess": address
+            }
+            if (name !== '' && phone !== '' && address !== '') {
+                const options = {
+                    method: 'POST',
+                    body: JSON.stringify(student),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+                fetch('http://localhost:3000/addStudent', options)
+                    .then(res => res.json())
+                    .then(res => {
+                        $('#listStudent').append('<tr id="row">' +
+                            '<th>'+
+                            students.students.length+
+                            '</th>'+
+                            '<td>'+
+                                name+
+                            '</td>'+
+                            '<td>'+
+                                phone+
+                            '</td>'+
+                            '<td>'+
+                                address+
+                            '</td>'+
+                            '<td>'+
+                            '<a href="#">'+"Edit"+'</a>'+
+                            '</td>'+
+                            '</tr>')
+                        students.students.length +=1;
+
+                    })
+                    .catch(err => console.error(err));
+            }
+
+
+        }
+        function removeStudent() {
+
+        }
+        loadDoc();
+    </script>
+</head>
+<body>
+    <section class="container">
+        <h1 id="demo" class="mt-3 text-center">Quản lý học sinh</h1>
+        <div class="row mt-5">
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" name="name" class="form-control" id="name" aria-describedby="emailHelp">
+                                <small id="emailHelp" class="form-text text-muted">Name student.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="text" name="phone" class="form-control" id="phone">
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <input type="text" name="address" class="form-control" id="address">
+                            </div>
+                            <button type="button" id="add" class="btn btn-primary" onclick="addStudent()">Add student</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-7">
+               <div class="card">
+                   <div class="card-body">
+                    <table id="table" class="table">
+                        <thead>
+                            <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listStudent">
+
+                        </tbody>
+                    </table>
+                   </div>
+               </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+</body>
+</html>
