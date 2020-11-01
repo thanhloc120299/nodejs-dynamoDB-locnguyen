@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import * as controller from './student.controller';
+import * as controller from './baibao.controller';
 
 router.get('/', (req, res) => {
     res.render("index");
@@ -8,7 +8,8 @@ router.get('/', (req, res) => {
 router.post('/',(req, res) => {
     console.log(req.body)
 })
-router.get('/getStudent', controller.getStudent);
-router.post('/addStudent', controller.addStudent)
+router.get('/getbao', controller.getBaiBao);
+router.post('/addbao', controller.addBaiBao);
+router.delete('/:id', controller.xoabao);
 
 export default router;

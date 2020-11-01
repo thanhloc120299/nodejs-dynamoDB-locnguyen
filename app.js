@@ -2,10 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser')
 
 const app = express();
-const port = 5000;
+const port = 1202;
 const path = require('path');
 const exphbs = require('express-handlebars');
-import UserRouter from "./student/student.router";
+import UserRouter from "./baibao/baibao.router";
 const cors = require('cors')
 
 app.use(express.json());

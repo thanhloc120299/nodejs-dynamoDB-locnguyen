@@ -3,7 +3,7 @@ const config = require('./config');
 const uuidv1 = require('uuid/v1');
 
 
-const getStudent = function (req, res) {
+const getBaiBao = function (req, res) {
     AWS.config.update(config.aws_remote_config);
 
     const docClient = new AWS.DynamoDB.DocumentClient();
@@ -11,7 +11,7 @@ const getStudent = function (req, res) {
     const params = {
         TableName: config.aws_table_name
     };
-
+    
     docClient.scan(params, function (err, data) {
 
         if (err) {
@@ -28,8 +28,31 @@ const getStudent = function (req, res) {
         }
     });
 }
-
-const addStudent = function (req, res) {
+const xoabao = function (req, res) {
+    AWS.config.update(config.aws_remote_config);
+    const docClient = new AWS.DynamoDB.DocumentClient();
+    const params = {
+        TableName: config.aws_table_name,
+        Key: {
+            id: req.params.id
+        }
+    };
+    docClient.delete(params, function(err, data) {
+        if (err) {
+            res.send({
+                success: false,
+                message: err
+            });
+        } else {
+            res.send({
+                success: true,
+                message: 'Xoa',
+                movie: data
+            });
+        }
+    } )
+}
+const addBaiBao = function (req, res) {
     AWS.config.update(config.aws_remote_config);
     const docClient = new AWS.DynamoDB.DocumentClient();
     const Item = { ...req.body };
@@ -49,13 +72,14 @@ const addStudent = function (req, res) {
         } else {
             res.send({
                 success: true,
-                message: 'Added student',
+                message: 'Add',
                 movie: data
             });
         }
     });
 }
 module.exports = {
-    getStudent,
-    addStudent
+  getBaiBao,
+  addBaiBao,
+  xoabao
 }
